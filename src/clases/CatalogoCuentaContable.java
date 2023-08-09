@@ -6,17 +6,16 @@ import java.time.LocalTime;
 
 public class CatalogoCuentaContable {
     
-    int Id;
-    int Numero;
-    String Descripcion;
-    boolean Tipo_cuenta;
-    int Nivel;
-    int Cuenta_padre;
-    int Grupo;
-    LocalDate Fehca_creacion;
-    LocalTime Hora_creacion;
-    double Debito_acumulado;
-    double Credito_acumulado;
-    double Balance;
+    public int Numero;
+    public String Descripcion;
+    public boolean Tipo_cuenta;
+    public int Nivel;
+    public int Cuenta_padre;
+    public int Grupo;
+    public LocalDate Fecha_creacion;
+    public LocalTime Hora_creacion;
+    public double Debito_acumulado = 0;
+    public double Credito_acumulado = 0;
+    public double Balance = 0;
     
 }

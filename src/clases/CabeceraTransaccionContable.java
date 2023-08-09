@@ -4,12 +4,11 @@ import java.time.LocalDate;
 
 public class CabeceraTransaccionContable {
 
-    int Id;
-    String numero;
-    LocalDate Fecha_documento;
-    int Tipo_documento;
-    String Hecho_por;
-    double Monto_transaccion;
-    LocalDate Fecha_actualizacion;
-    boolean Status_actualizacio;
+    public String Numero;
+    public LocalDate Fecha_documento;
+    public int Tipo_documento;
+    public String Hecho_por;
+    public double Monto_transaccion = 0;
+    public LocalDate Fecha_actualizacion = LocalDate.parse("1/1/2002");
+    public boolean Status_actualizacio = false;
 }

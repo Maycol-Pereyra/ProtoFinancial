@@ -4,11 +4,10 @@ package clases;
 
 public class TransaccionContable {
     
-    int Id;
-    String Numero;
-    int Secuencia;
-    int Cuenta_contable;
-    double Valor_debito;
-    double Valor_credito;
-    String Comentario;
+    public String Numero = " ";
+    public int Secuencia = 0;
+    public int Cuenta_contable;
+    public double Valor_debito;
+    public double Valor_credito;
+    public String Comentario = " ";
 }

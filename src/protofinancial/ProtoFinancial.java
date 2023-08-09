@@ -1,21 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package protofinancial;
 
-/**
- *
- * @author User
- */
+import clases.Usuario;
+import java.io.IOException;
+import servicios.Archivos;
+import vistas.Login;
+
 public class ProtoFinancial {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        Archivos Manejador = new Archivos();
+        Usuario user = new Usuario();
+        user.Login= "minato";
+        user.Password = "santi2";
+        String[] lista = {user.Login, user.Password};
+        
+        //Manejador.Insertar("Usuarios", lista);
+        
+        Login login = new Login();
+        login.show();
     }
     
 }

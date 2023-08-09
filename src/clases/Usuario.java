@@ -3,13 +3,14 @@ package clases;
 
 public class Usuario {
     
-    int Id;
-    String Login;
-    String Password;
-    int Nivel_acceso;
-    String Nombre;
-    String Apellido;
-    String Email;
+    public int Id;
+    public String Login;
+    public String Password;
+    public int NivelAcceso;
+    public String Nombre;
+    public String Apellido;
+    public String Email = " ";
+    
     
 }
 
