@@ -9,6 +9,7 @@ import clases.CatalogoCuentaContable;
 import clases.Usuario;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import javax.swing.ButtonModel;
 import javax.swing.JOptionPane;
 import servicios.Archivos;
@@ -20,20 +21,25 @@ import servicios.Convertidor;
  */
 public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
 
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     /**
      * Creates new form CatalogoCuentasMantenimiento
      */
     public CatalogoCuentasMantenimiento() {
         initComponents();
         
-        fecha.setText(LocalDate.now().toString());
+        LocalDate fechaActual = LocalDate.now();
+        
+        String fechaFormateada = fechaActual.format(formatter);
+        
+        fecha.setText(fechaFormateada);
         hora.setText(LocalTime.now().toString());
         fecha.disable();
         hora.disable();
-        ComboBox1.removeAllItems();
-        ComboBox1.addItem("General");
-        ComboBox1.addItem("Detalle");
-        ComboBox1.setSelectedItem("General");
+        tipo.removeAllItems();
+        tipo.addItem("General");
+        tipo.addItem("Detalle");
+        tipo.setSelectedItem("General");
 
     }
 
@@ -70,13 +76,19 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
         balance = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         descripcion = new javax.swing.JTextField();
-        ComboBox1 = new javax.swing.JComboBox<>();
+        tipo = new javax.swing.JComboBox<>();
         fecha = new javax.swing.JTextField();
+        label = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel2.setText("Numero*");
 
+        numero.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                numeroFocusLost(evt);
+            }
+        });
         numero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 numeroActionPerformed(evt);
@@ -127,7 +139,10 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
 
         jLabel12.setText("Balance");
 
-        ComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        label.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        label.setText("Creando...");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,46 +150,6 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(nivel, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
-                                    .addComponent(cuentaPadre)
-                                    .addComponent(numero, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(descripcion)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(60, 60, 60)
-                                        .addComponent(jLabel5)
-                                        .addGap(22, 22, 22)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(debito)
-                                    .addComponent(credito)
-                                    .addComponent(hora)
-                                    .addComponent(grupo, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(balance)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(ComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(fecha, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -184,6 +159,49 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
                         .addGap(41, 41, 41)
                         .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(50, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(nivel, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                            .addComponent(cuentaPadre)
+                            .addComponent(numero, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(descripcion)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addComponent(jLabel5)
+                                .addGap(22, 22, 22)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(debito)
+                            .addComponent(credito)
+                            .addComponent(hora)
+                            .addComponent(grupo, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(balance)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(fecha, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,7 +211,8 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(numero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(numero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -233,8 +252,8 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(ComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                    .addComponent(tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonCancelar)
                     .addComponent(botonRegistrar))
@@ -248,12 +267,6 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_numeroActionPerformed
 
-    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
-
-        this.dispose();
-
-    }//GEN-LAST:event_botonCancelarActionPerformed
-
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
     
         if(esValido()){
@@ -266,12 +279,12 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
             ccc.Nivel = Integer.parseInt(nivel.getText());
             ccc.Cuenta_padre = Integer.parseInt(cuentaPadre.getText());
             ccc.Grupo = Integer.parseInt(grupo.getText());
-            ccc.Fecha_creacion = LocalDate.parse(fecha.getText());
+            ccc.Fecha_creacion = LocalDate.parse(fecha.getText(), formatter);
             ccc.Hora_creacion = LocalTime.parse(hora.getText());
             
             boolean var;
             
-            if(ComboBox1.getSelectedItem().toString().equals("General"))
+            if(tipo.getSelectedItem().toString().equals("General"))
                 var = true;
             else
                 var = false;
@@ -291,15 +304,21 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
             
             if(manejador.ValidarCatalogoCuenta(numero.getText())){
                 
+                if(ccc.Balance != 0){
+                    JOptionPane.showMessageDialog(null, "No se puedo modificar una cuenta con balance", "Informacion", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                    
+                
                 manejador.Actualizar(manejador.CatalogoCuenta, lista);
                 
-                JOptionPane.showMessageDialog(null, "Usuario actualizado con exito", "Aviso", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Catalogo cuenta contable actualizado con exito", "Informacion", JOptionPane.WARNING_MESSAGE);
             }
             else{
 
                 manejador.Insertar(manejador.CatalogoCuenta, lista);
                 
-                JOptionPane.showMessageDialog(null, "Usuario registrado con exito", "Aviso", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Catalogo cuenta contable registrado con exito", "Informacion", JOptionPane.WARNING_MESSAGE);
                 
             }
             
@@ -314,8 +333,19 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
 
     private void Limpiar(){
         
-        
+        numero.setText("");
+        descripcion.setText("");
+        nivel.setText("");
+        cuentaPadre.setText("");
+        grupo.setText("");
+        debito.setText("");
+        credito.setText("");
+        balance.setText("");
+        tipo.setSelectedItem("General");
+
+   
     }
+    
     
     private boolean esValido(){
         
@@ -335,6 +365,42 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
     private void grupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grupoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_grupoActionPerformed
+
+    private void numeroFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_numeroFocusLost
+        
+        Archivos manejador = new Archivos();
+        
+        if(manejador.ValidarCatalogoCuenta(numero.getText())){
+            
+            Convertidor cvt = new Convertidor();
+            CatalogoCuentaContable ccc = new CatalogoCuentaContable();
+            ccc = cvt.StringCCC(manejador.ObtenerCCC(numero.getText()));
+            
+            descripcion.setText(ccc.Descripcion);
+            nivel.setText(String.valueOf(ccc.Nivel));
+            cuentaPadre.setText(String.valueOf(ccc.Cuenta_padre));
+            grupo.setText(String.valueOf(ccc.Grupo));
+            debito.setText(String.valueOf(ccc.Debito_acumulado));
+            credito.setText(String.valueOf(ccc.Credito_acumulado));
+            balance.setText(String.valueOf(ccc.Balance));
+            
+            String var;
+            
+            if(ccc.Tipo_cuenta)
+                var = "General";
+            else
+                var = "Detalle";
+            
+            tipo.setSelectedItem(var);
+            
+            label.setText("Modificando...");
+        }
+    }//GEN-LAST:event_numeroFocusLost
+
+    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
+
+        this.dispose();
+    }//GEN-LAST:event_botonCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -372,7 +438,6 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> ComboBox1;
     private javax.swing.JTextField balance;
     private javax.swing.JButton botonCancelar;
     private javax.swing.JButton botonRegistrar;
@@ -396,7 +461,9 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel label;
     private javax.swing.JTextField nivel;
     private javax.swing.JTextField numero;
+    private javax.swing.JComboBox<String> tipo;
     // End of variables declaration//GEN-END:variables
 }

@@ -212,13 +212,13 @@ public class UsuarioMantenimiento extends javax.swing.JFrame {
                 
                 manejador.Actualizar(manejador.Usuarios, listaUsuario);
                 
-                JOptionPane.showMessageDialog(null, "Usuario actualizado con exito", "Aviso", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Usuario actualizado con exito", "Informacion", JOptionPane.WARNING_MESSAGE);
             }
             else{
 
                 manejador.Insertar(manejador.Usuarios, listaUsuario);
                 
-                JOptionPane.showMessageDialog(null, "Usuario registrado con exito", "Aviso", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Usuario registrado con exito", "Informacion", JOptionPane.WARNING_MESSAGE);
                 
             }
             
@@ -241,32 +241,25 @@ public class UsuarioMantenimiento extends javax.swing.JFrame {
             
             Convertidor cvt = new Convertidor();
             Usuario user = new Usuario();
-            user = cvt.StringUsuario(manejador.ObtenerUsuario(manejador.Usuarios, login.getText()));
+            user = cvt.StringUsuario(manejador.ObtenerUsuario(login.getText()));
             
             nivelAcceso.setValue(user.NivelAcceso);
             nombre.setText(user.Nombre);
             apellido.setText(user.Apellido);
             email.setText(user.Email);
         }
-        else{
-            this.LimpiarRestantes();
-        }
-        
         
     }//GEN-LAST:event_passwordFocusLost
 
-    private void LimpiarRestantes(){
-        nivelAcceso.setValue(0);
-        nombre.setText("");
-        apellido.setText("");
-        email.setText("");
-    }
-    
+   
     private void Limpiar(){
         
         login.setText("");
         password.setText("");
-        this.LimpiarRestantes();
+        nivelAcceso.setValue(0);
+        nombre.setText("");
+        apellido.setText("");
+        email.setText("");
     }
     
     private boolean esValido(){

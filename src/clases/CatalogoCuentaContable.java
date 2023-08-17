@@ -19,3 +19,4 @@ public class CatalogoCuentaContable {
     public double Balance = 0;
     
 }
+

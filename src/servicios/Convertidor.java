@@ -7,8 +7,12 @@ package servicios;
 
 import clases.CabeceraTransaccionContable;
 import clases.CatalogoCuentaContable;
+import clases.TipoDocumento;
 import clases.TransaccionContable;
 import clases.Usuario;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -16,10 +20,11 @@ import clases.Usuario;
  */
 public class Convertidor {
     
-    public Convertidor(){
-    
+    public String[] Separador(String informaciones){
         
+        String[] rows = informaciones.split("&");
         
+        return rows;
     }
     
     public String[] UsuarioLista(Usuario user){
@@ -43,7 +48,7 @@ public class Convertidor {
     public Usuario StringUsuario(String informaciones){
         Usuario user = new Usuario();
                 
-        String[] infos = informaciones.split("-");
+        String[] infos = informaciones.split("#");
         
         user.Id = Integer.parseInt(infos[0]);
         user.Login = infos[1];
@@ -54,6 +59,18 @@ public class Convertidor {
         user.Email = infos[6];
         
         return user;
+    }
+    
+    public TipoDocumento StringTipoDoc(String informaciones){
+        TipoDocumento td = new TipoDocumento();
+        
+        String[] infos = informaciones.split("#");
+        
+        td.Codigo = Integer.parseInt(infos[0]);
+        td.Descripcion = Integer.parseInt(infos[1]);
+        
+        return td;
+        
     }
     
     public String[] CatalogoLista(CatalogoCuentaContable CCC){
@@ -81,6 +98,29 @@ public class Convertidor {
             grupo, fechaCreacion, horaCreacion, debito, credito, balance};
         
         return lista;
+    }
+    
+    public CatalogoCuentaContable StringCCC(String informaciones){
+        
+        CatalogoCuentaContable ccc = new CatalogoCuentaContable();
+        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        
+        String[] infos = informaciones.split("#");
+        
+        ccc.Numero = Integer.parseInt(infos[0]);
+        ccc.Descripcion = infos[1];
+        ccc.Tipo_cuenta = Boolean.parseBoolean(infos[2]);
+        ccc.Nivel = Integer.parseInt(infos[3]);
+        ccc.Cuenta_padre = Integer.parseInt(infos[4]);
+        ccc.Grupo = Integer.parseInt(infos[5]);
+        ccc.Fecha_creacion  = LocalDate.parse(infos[6]);
+        ccc.Hora_creacion = LocalTime.parse(infos[7]);
+        ccc.Debito_acumulado = Double.parseDouble(infos[8]);
+        ccc.Credito_acumulado = Double.parseDouble(infos[9]);
+        ccc.Balance = Double.parseDouble(infos[10]);
+        
+        return ccc;
+        
     }
     
     public String[] CabeceraLista(CabeceraTransaccionContable CTC){
@@ -120,5 +160,16 @@ public class Convertidor {
         String[] lista = {numero, secuencia, cuenta, valorDebito, valorCredito, comentario}; 
         
         return lista;
+    }
+    
+    public String[] TipoDocLista(TipoDocumento td){
+        
+        String codigo = String.valueOf(td.Codigo);
+        String descripcion = String.valueOf(td.Descripcion);
+        
+        String[] lista = {codigo, descripcion};
+        
+        return lista;
+        
     }
 }
