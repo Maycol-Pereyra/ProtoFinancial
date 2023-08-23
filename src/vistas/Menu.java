@@ -37,7 +37,6 @@ public class Menu extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -85,6 +84,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu2.setText("Movimientos");
 
         jMenuItem3.setText("Transacciones");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem3);
 
         jMenuBar1.add(jMenu2);
@@ -92,10 +96,12 @@ public class Menu extends javax.swing.JFrame {
         jMenu3.setText("Procesos");
 
         jMenuItem4.setText("Cierre diario");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem4);
-
-        jMenuItem5.setText("Cierre fiscal");
-        jMenu3.add(jMenuItem5);
 
         jMenuBar1.add(jMenu3);
 
@@ -118,6 +124,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu4.add(jMenuItem7);
 
         jMenuItem9.setText("Transaccion doc");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem9);
 
         jMenuItem11.setText("Balanza general");
@@ -194,6 +205,21 @@ public class Menu extends javax.swing.JFrame {
         mantenimiento.show();
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        TransaccionMovimiento movimiento = new TransaccionMovimiento();
+        movimiento.show();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        TransaccionDocumentoConsulta consulta = new TransaccionDocumentoConsulta();  
+        consulta.show();
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        CierreDiarioProceso proceso = new CierreDiarioProceso();
+        proceso.show();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -245,7 +271,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;

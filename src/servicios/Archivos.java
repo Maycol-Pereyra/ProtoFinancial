@@ -95,16 +95,100 @@ public class Archivos {
                 
                 try (FileWriter Escritor = new FileWriter(rutaNueva, true)){
                     
-                    String login = datos[1];
-                    String password  = datos[2];
+                    String numero = datos[0];
                     String info = "";
+                    int contador = 0;
 
                     while(Lector.hasNextLine()){
 
                         String informaciones = Lector.nextLine();
 
-                        String login_obtenido = informaciones.split("#")[1];
-                        String password_obtenida = informaciones.split("#")[2];
+                        String numero_obtenido = informaciones.split("#")[0];
+                        
+                        if(numero_obtenido.equals(numero)){
+
+                            for(int i=0; i<datos.length; i++){
+
+                                if(i != 0){
+                                    datos[i] = "#" + datos[i];
+                                }
+
+                                info += datos[i];
+                            }
+
+                            if(contador != 0){
+
+                                Scanner scanner = new Scanner(rutaNueva);
+                                while(scanner.hasNextLine()){
+                                    scanner.nextLine();
+                                    info = "\n" + info;
+                                }
+                            }
+
+                            Escritor.write(info);
+                        }
+                        else{
+
+                            if(contador != 0){
+
+                                Scanner scanner = new Scanner(rutaNueva);
+                                while(scanner.hasNextLine()){
+                                    scanner.nextLine();
+                                    informaciones = "\n" + informaciones;
+                                }
+                            }
+
+                            Escritor.write(informaciones);
+                        }
+                        
+                        contador++;
+                    }
+
+                    
+                }
+            }
+            
+            Archivo.delete();
+            Nuevo.renameTo(new File(ruta_archivo));
+            Nuevo.delete();
+
+            return "todo correcto";
+            
+        }
+        
+        catch(IOException ex){
+            System.out.println("Ocurrio un error " + ex);
+            return ""+ex;
+        }
+        
+    }
+    
+    public String ActualizarUsuario(String[] datos){
+        
+        try{
+            
+            String ruta_archivo = ruta_archivos + "\\Usuarios.txt"; 
+            String rutaNueva  = ruta_archivos + "\\Usuarios1.txt";
+            Archivo = new File(ruta_archivo);
+            
+            File Nuevo =  new File(ruta_archivos + "\\Usuarios1.txt");
+            
+            Archivo.createNewFile();            
+            try (Scanner Lector = new Scanner(Archivo)) {
+                
+                try (FileWriter Escritor = new FileWriter(rutaNueva, true)){
+                    
+                    String login = datos[0];
+                    String password  = datos[1];
+                    String info = "";
+                    int contador = 0;
+                    
+                    while(Lector.hasNextLine()){
+
+                        String informaciones = Lector.nextLine();
+
+                        String login_obtenido = informaciones.split("#")[0];
+                        String password_obtenida = informaciones.split("#")[1];
 
                         if((login_obtenido.equals(login) && password_obtenida.equals(password))){
 
@@ -117,9 +201,9 @@ public class Archivos {
                                 info += datos[i];
                             }
 
-                            if(Nuevo.length() != 0){
+                            if(contador != 0){
 
-                                Scanner scanner = new Scanner(Nuevo);
+                                Scanner scanner = new Scanner(rutaNueva);
                                 while(scanner.hasNextLine()){
                                     scanner.nextLine();
                                     info = "\n" + info;
@@ -130,9 +214,9 @@ public class Archivos {
                         }
                         else{
 
-                            if(Nuevo.length() != 0){
+                            if(contador != 0){
 
-                                Scanner scanner = new Scanner(Nuevo);
+                                Scanner scanner = new Scanner(rutaNueva);
                                 while(scanner.hasNextLine()){
                                     scanner.nextLine();
                                     informaciones = "\n" + informaciones;
@@ -141,6 +225,8 @@ public class Archivos {
 
                             Escritor.write(informaciones);
                         }
+                        
+                        contador++;
                     }
 
                     
@@ -211,7 +297,7 @@ public class Archivos {
 
                     String informaciones = Lector.nextLine();
 
-                    String login_obtenido = informaciones.split("#")[1];
+                    String login_obtenido = informaciones.split("#")[0];
 
                     if(login_obtenido.equals(login)){
 
@@ -257,6 +343,68 @@ public class Archivos {
            catch(IOException ex){
                return("Ocurrio un error");
            }   
+    }
+    
+    public String ObtenerCTC(String numero){
+        try{
+               String ruta_archivo = ruta_archivos + "\\Cabecera Transaccion Contable.txt"; 
+               Archivo = new File(ruta_archivo);
+
+               if(!Archivo.exists()){
+                   return "No hay datos";
+               }
+
+               try (Scanner Lector = new Scanner(Archivo)) {
+
+                   while(Lector.hasNextLine()){
+
+                       String informaciones = Lector.nextLine();
+
+                       String numero_obtenido = informaciones.split("#")[0];
+
+                       if(numero_obtenido.equals(numero)){
+
+                           return informaciones;
+                       }
+                   }
+               }
+               return "No se encontro el registro";
+           }
+
+           catch(IOException ex){
+               return("Ocurrio un error");
+           }   
+    }
+    
+    public String ObtenerTC(String numero){
+        try{
+               String ruta_archivo = ruta_archivos + "\\Transaccion contable.txt"; 
+               Archivo = new File(ruta_archivo);
+
+               if(!Archivo.exists()){
+                   return "No hay datos";
+               }
+
+               try (Scanner Lector = new Scanner(Archivo)) {
+
+                   while(Lector.hasNextLine()){
+
+                       String informaciones = Lector.nextLine();
+
+                       String numero_obtenido = informaciones.split("#")[0];
+
+                       if(numero_obtenido.equals(numero)){
+
+                           return informaciones;
+                       }
+                   }
+               }
+               return "No se encontro el registro";
+           }
+
+           catch(IOException ex){
+               return("Ocurrio un error");
+           } 
     }
     
     public String ObtenerTipoDoc(String numero){
@@ -372,7 +520,7 @@ public class Archivos {
                     
                     String[] informaciones = Lector.nextLine().split("#");
                     
-                    String login = informaciones[1], password_obtenida = informaciones[2];
+                    String login = informaciones[0], password_obtenida = informaciones[1];
                     
                     if(login.equals(nombre) && password_obtenida.equals(password)){
                         return true;
@@ -424,6 +572,38 @@ public class Archivos {
         
         try{
             String ruta_archivo = ruta_archivos + "\\Tipo Documento.txt"; 
+            Archivo = new File(ruta_archivo);
+        
+            if(!Archivo.exists()){
+                return false;
+            }
+            
+            try (Scanner Lector = new Scanner(Archivo)) {
+                
+                while(Lector.hasNextLine()){
+                    
+                    String[] informaciones = Lector.nextLine().split("#");
+                    
+                    String numeroObtenido = informaciones[0];
+                    
+                    if(numeroObtenido.equals(numero)){
+                        return true;
+                    }
+                }
+                
+                return false;
+            }
+        }
+        
+        catch(IOException ex){
+            return false;
+        }
+    }
+    
+    public boolean ValidarCabecera(String numero){
+        
+        try{
+            String ruta_archivo = ruta_archivos + "\\Cabecera Transaccion Contable.txt"; 
             Archivo = new File(ruta_archivo);
         
             if(!Archivo.exists()){

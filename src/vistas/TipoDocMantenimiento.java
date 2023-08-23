@@ -21,12 +21,6 @@ public class TipoDocMantenimiento extends javax.swing.JFrame {
      */
     public TipoDocMantenimiento() {
         initComponents();
-        
-        descripcion.removeAllItems();
-        descripcion.addItem("Factura");
-        descripcion.addItem("Ajuste");
-        descripcion.addItem("Doc. Interno");
-        descripcion.setSelectedItem("Factura");
     }
 
     /**
@@ -44,7 +38,8 @@ public class TipoDocMantenimiento extends javax.swing.JFrame {
         codigo = new javax.swing.JTextField();
         botonCancelar = new javax.swing.JButton();
         botonRegistrar = new javax.swing.JButton();
-        descripcion = new javax.swing.JComboBox<>();
+        descripcion = new javax.swing.JTextField();
+        actualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,7 +75,23 @@ public class TipoDocMantenimiento extends javax.swing.JFrame {
             }
         });
 
-        descripcion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        descripcion.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                descripcionFocusLost(evt);
+            }
+        });
+        descripcion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                descripcionActionPerformed(evt);
+            }
+        });
+
+        actualizar.setText("Actualizar");
+        actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                actualizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -97,15 +108,18 @@ public class TipoDocMantenimiento extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(descripcion, 0, 109, Short.MAX_VALUE)
-                            .addComponent(codigo)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(78, 78, 78)
-                        .addComponent(botonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
-                        .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(76, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(botonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,8 +137,9 @@ public class TipoDocMantenimiento extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonCancelar)
-                    .addComponent(botonRegistrar))
-                .addContainerGap(23, Short.MAX_VALUE))
+                    .addComponent(botonRegistrar)
+                    .addComponent(actualizar))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -139,15 +154,12 @@ public class TipoDocMantenimiento extends javax.swing.JFrame {
             Convertidor cvt = new Convertidor();
             TipoDocumento td = new TipoDocumento();
             td = cvt.StringTipoDoc(manejador.ObtenerTipoDoc(codigo.getText()));
-            
-            if(td.Descripcion == 1)
-                descripcion.setSelectedItem("Factura");
-            else if(td.Descripcion == 2)
-                descripcion.setSelectedItem("Ajuste");
-            else
-                descripcion.setSelectedItem("Doc. Interno");
-            
+            descripcion.setText(td.Descripcion);
         }
+        else{
+            descripcion.setText("");
+        }
+        
     }//GEN-LAST:event_codigoFocusLost
 
     private void codigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codigoActionPerformed
@@ -169,16 +181,7 @@ public class TipoDocMantenimiento extends javax.swing.JFrame {
             
             td.Codigo = Integer.parseInt(codigo.getText());
             
-            int var;
-            
-            if(descripcion.getSelectedItem().equals("Factura"))
-                var = 1;
-            else if(descripcion.getSelectedItem().equals("Ajuste"))
-                var = 2;
-            else
-                var = 3;
-            
-            td.Descripcion = var;
+            td.Descripcion = descripcion.getText();
             
             Convertidor cvt = new Convertidor();
 
@@ -207,6 +210,49 @@ public class TipoDocMantenimiento extends javax.swing.JFrame {
 
     }//GEN-LAST:event_botonRegistrarActionPerformed
 
+    private void descripcionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_descripcionFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_descripcionFocusLost
+
+    private void descripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descripcionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_descripcionActionPerformed
+
+    private void actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarActionPerformed
+        if(esValido()){
+
+            Archivos manejador = new Archivos();
+
+            TipoDocumento td = new TipoDocumento();
+            
+            td.Codigo = Integer.parseInt(codigo.getText());
+            
+            td.Descripcion = descripcion.getText();
+            
+            Convertidor cvt = new Convertidor();
+
+            String[] lista = cvt.TipoDocLista(td);
+
+            if(manejador.ValidarTipoDoc(codigo.getText())){
+
+                manejador.Actualizar(manejador.TipoDocumento, lista);
+
+                JOptionPane.showMessageDialog(null, "Tipo documento actualizado con exito", "Informacion", JOptionPane.WARNING_MESSAGE);
+            }
+            else{
+                
+                JOptionPane.showMessageDialog(null, "No se puede actualizar un registro que no existe", "Informacion", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            this.Limpiar();
+        }
+
+        else{
+            JOptionPane.showMessageDialog(null, "Debe completar todos los campos obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_actualizarActionPerformed
+
     private boolean esValido(){
         
         return !codigo.getText().equals("");
@@ -214,7 +260,7 @@ public class TipoDocMantenimiento extends javax.swing.JFrame {
     
     private void Limpiar(){
         codigo.setText("");
-        descripcion.setSelectedItem("Factura");
+        descripcion.setText("");
     }
     /**
      * @param args the command line arguments
@@ -252,10 +298,11 @@ public class TipoDocMantenimiento extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton actualizar;
     private javax.swing.JButton botonCancelar;
     private javax.swing.JButton botonRegistrar;
     private javax.swing.JTextField codigo;
-    private javax.swing.JComboBox<String> descripcion;
+    private javax.swing.JTextField descripcion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

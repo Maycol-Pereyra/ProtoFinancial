@@ -3,7 +3,6 @@ package clases;
 
 public class Usuario {
     
-    public int Id;
     public String Login;
     public String Password;
     public int NivelAcceso;

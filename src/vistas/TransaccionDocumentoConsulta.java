@@ -21,6 +21,25 @@ public class TransaccionDocumentoConsulta extends javax.swing.JFrame {
      */
     public TransaccionDocumentoConsulta() {
         initComponents();
+        PopularTipoDoc();
+    }
+    
+    private void PopularTipoDoc(){
+        
+        tipo.removeAllItems();
+        
+        Archivos manejador = new Archivos();
+        Convertidor cvt = new Convertidor();
+        
+        tipo.addItem("Seleccione...");
+        String[] datos = cvt.Separador(manejador.ObtenerDatos(manejador.TipoDocumento));
+        
+        for(int i=0; i<datos.length; i++){
+            String item = datos[i].split("#")[1];
+            tipo.addItem(item);
+        }
+        
+        tipo.setSelectedIndex(0);
     }
 
     /**
@@ -37,10 +56,10 @@ public class TransaccionDocumentoConsulta extends javax.swing.JFrame {
         buscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
-        tipo = new javax.swing.JTextField();
         numero = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        tipo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,6 +122,8 @@ public class TransaccionDocumentoConsulta extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         jLabel3.setText("No. Doc.");
 
+        tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -130,9 +151,9 @@ public class TransaccionDocumentoConsulta extends javax.swing.JFrame {
                                 .addGap(412, 412, 412))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(44, 44, 44))))))
+                                .addGap(26, 26, 26)
+                                .addComponent(tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,12 +192,12 @@ public class TransaccionDocumentoConsulta extends javax.swing.JFrame {
 
         String[] rows = cvt.Separador(manejador.ObtenerDatos(manejador.CabeceraTrans));
 
-        if(tipo.getText().equals("") && numero.getText().equals("") ){
-            JOptionPane.showMessageDialog(null, "Debe seleccionar al menos una fecha", "Informacion", JOptionPane.WARNING_MESSAGE);
+        if(tipo.getSelectedItem().equals("Seleccione...") && numero.getText().equals("") ){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar al menos una opcion", "Informacion", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        if(!tipo.getText().equals("") && numero.getText().equals("") ){
+        if(!tipo.getSelectedItem().equals("Seleccione...") && numero.getText().equals("") ){
 
             if(rows.length > 0){
 
@@ -184,7 +205,7 @@ public class TransaccionDocumentoConsulta extends javax.swing.JFrame {
 
                     String[] infos = rows[i].split("#");
 
-                    if(tipo.getText().equals(infos[2]))
+                    if(tipo.getSelectedItem().equals(infos[2]))
                         modeloTabla.addRow(infos);
 
                 }
@@ -195,7 +216,7 @@ public class TransaccionDocumentoConsulta extends javax.swing.JFrame {
 
         }
 
-        else if(tipo.getText().equals("") && !numero.getText().equals("") ){
+        else if(tipo.getSelectedItem().equals("Seleccione...") && !numero.getText().equals("") ){
 
             if(rows.length > 0){
 
@@ -214,7 +235,7 @@ public class TransaccionDocumentoConsulta extends javax.swing.JFrame {
 
         }
         
-        else if(!tipo.getText().equals("") && !numero.getText().equals("") ){
+        else if(!tipo.getSelectedItem().equals("") && !numero.getText().equals("") ){
             JOptionPane.showMessageDialog(null, "Solo de marcar una de las opciones", "Informacion", JOptionPane.WARNING_MESSAGE);
 
         }
@@ -265,6 +286,6 @@ public class TransaccionDocumentoConsulta extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField numero;
     private javax.swing.JTable tabla;
-    private javax.swing.JTextField tipo;
+    private javax.swing.JComboBox<String> tipo;
     // End of variables declaration//GEN-END:variables
 }

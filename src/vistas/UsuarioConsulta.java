@@ -172,6 +172,11 @@ public class UsuarioConsulta extends javax.swing.JFrame {
             for(int i=0; i<rows.length; i++) {
 
                 String[] infos = rows[i].split("#");
+                String chars = "";
+                for(int j=0; j<infos[1].length(); j++){
+                    chars += "*";
+                }
+                infos[1] = chars;
                 
                 if(login.getText().equals(""))
                     modeloTabla.addRow(infos);

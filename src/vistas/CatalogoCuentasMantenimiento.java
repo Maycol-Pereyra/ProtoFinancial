@@ -79,6 +79,7 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
         tipo = new javax.swing.JComboBox<>();
         fecha = new javax.swing.JTextField();
         label = new javax.swing.JLabel();
+        actualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -129,6 +130,10 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
 
         jLabel10.setText("Debito acumulado");
 
+        credito.setEditable(false);
+
+        debito.setEditable(false);
+
         grupo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 grupoActionPerformed(evt);
@@ -137,6 +142,8 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
 
         jLabel11.setText("Credito acumulado");
 
+        balance.setEditable(false);
+
         jLabel12.setText("Balance");
 
         tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -144,20 +151,20 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
         label.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         label.setText("Creando...");
 
+        actualizar.setText("Actualizar");
+        actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                actualizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
-                        .addComponent(botonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
-                        .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(50, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
@@ -202,6 +209,14 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(botonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(actualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,7 +271,8 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonCancelar)
-                    .addComponent(botonRegistrar))
+                    .addComponent(botonRegistrar)
+                    .addComponent(actualizar))
                 .addGap(23, 23, 23))
         );
 
@@ -278,7 +294,7 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
             ccc.Descripcion = descripcion.getText();
             ccc.Nivel = Integer.parseInt(nivel.getText());
             ccc.Cuenta_padre = Integer.parseInt(cuentaPadre.getText());
-            ccc.Grupo = Integer.parseInt(grupo.getText());
+            ccc.Grupo = grupo.getText();
             ccc.Fecha_creacion = LocalDate.parse(fecha.getText(), formatter);
             ccc.Hora_creacion = LocalTime.parse(hora.getText());
             
@@ -346,6 +362,17 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
    
     }
     
+    private void LimpiarSinCodigo(){
+        descripcion.setText("");
+        nivel.setText("");
+        cuentaPadre.setText("");
+        grupo.setText("");
+        debito.setText("");
+        credito.setText("");
+        balance.setText("");
+        tipo.setSelectedItem("General");
+    }
+    
     
     private boolean esValido(){
         
@@ -395,12 +422,77 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
             
             label.setText("Modificando...");
         }
+        else{
+            label.setText("Creando...");
+            LimpiarSinCodigo();
+        }
+        
     }//GEN-LAST:event_numeroFocusLost
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
 
         this.dispose();
     }//GEN-LAST:event_botonCancelarActionPerformed
+
+    private void actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarActionPerformed
+        
+        if(esValido()){
+            
+            Archivos manejador = new Archivos();
+            
+            CatalogoCuentaContable ccc = new CatalogoCuentaContable();
+            ccc.Numero = Integer.parseInt(numero.getText());
+            ccc.Descripcion = descripcion.getText();
+            ccc.Nivel = Integer.parseInt(nivel.getText());
+            ccc.Cuenta_padre = Integer.parseInt(cuentaPadre.getText());
+            ccc.Grupo = grupo.getText();
+            ccc.Fecha_creacion = LocalDate.parse(fecha.getText(), formatter);
+            ccc.Hora_creacion = LocalTime.parse(hora.getText());
+            
+            boolean var;
+            
+            if(tipo.getSelectedItem().toString().equals("General"))
+                var = true;
+            else
+                var = false;
+            
+            ccc.Tipo_cuenta = var;
+       
+            if(!debito.getText().isEmpty())
+                ccc.Debito_acumulado = Double.parseDouble(debito.getText());
+            if(!credito.getText().isEmpty())
+                ccc.Credito_acumulado = Double.parseDouble(credito.getText());
+            if(!balance.getText().isEmpty())
+                ccc.Balance = Double.parseDouble(balance.getText());
+
+            Convertidor cvt = new Convertidor();
+
+            String[] lista = cvt.CatalogoLista(ccc);
+            
+            if(manejador.ValidarCatalogoCuenta(numero.getText())){
+                
+                if(ccc.Balance != 0){
+                    JOptionPane.showMessageDialog(null, "No se puedo modificar una cuenta con balance", "Informacion", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                    
+                manejador.Actualizar(manejador.CatalogoCuenta, lista);
+                
+                JOptionPane.showMessageDialog(null, "Catalogo cuenta contable actualizado con exito", "Informacion", JOptionPane.WARNING_MESSAGE);
+            }
+            else{
+
+                JOptionPane.showMessageDialog(null, "No se puede actualizar un registro que no existe", "Informacion", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            this.Limpiar();
+        }
+        
+        else{
+            JOptionPane.showMessageDialog(null, "Debe completar todos los campos obligatorios", "Error", JOptionPane.ERROR_MESSAGE); 
+        }
+    }//GEN-LAST:event_actualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -438,6 +530,7 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton actualizar;
     private javax.swing.JTextField balance;
     private javax.swing.JButton botonCancelar;
     private javax.swing.JButton botonRegistrar;

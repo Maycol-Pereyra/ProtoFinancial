@@ -47,6 +47,7 @@ public class UsuarioMantenimiento extends javax.swing.JFrame {
         botonCancelar = new javax.swing.JButton();
         botonRegistrar = new javax.swing.JButton();
         password = new javax.swing.JPasswordField();
+        actualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,6 +100,13 @@ public class UsuarioMantenimiento extends javax.swing.JFrame {
             }
         });
 
+        actualizar.setText("Actualizar");
+        actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                actualizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -111,30 +119,31 @@ public class UsuarioMantenimiento extends javax.swing.JFrame {
                         .addGap(200, 200, 200))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addGap(29, 29, 29)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(login, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGap(0, 108, Short.MAX_VALUE)
-                                        .addComponent(nivelAcceso, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(apellido)
-                                    .addComponent(email)
-                                    .addComponent(nombre)
-                                    .addComponent(password)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(botonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(41, 41, 41)
-                                .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(login, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 108, Short.MAX_VALUE)
+                                .addComponent(nivelAcceso, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(apellido)
+                            .addComponent(email)
+                            .addComponent(nombre)
+                            .addComponent(password))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(botonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,7 +180,8 @@ public class UsuarioMantenimiento extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonCancelar)
-                    .addComponent(botonRegistrar))
+                    .addComponent(botonRegistrar)
+                    .addComponent(actualizar))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
@@ -210,7 +220,7 @@ public class UsuarioMantenimiento extends javax.swing.JFrame {
             
             if(manejador.ValidarUsuario(login.getText(), password.getText())){
                 
-                manejador.Actualizar(manejador.Usuarios, listaUsuario);
+                manejador.ActualizarUsuario(listaUsuario);
                 
                 JOptionPane.showMessageDialog(null, "Usuario actualizado con exito", "Informacion", JOptionPane.WARNING_MESSAGE);
             }
@@ -248,10 +258,60 @@ public class UsuarioMantenimiento extends javax.swing.JFrame {
             apellido.setText(user.Apellido);
             email.setText(user.Email);
         }
+        else{
+            LimpiarSinLoginPass();
+        }
         
     }//GEN-LAST:event_passwordFocusLost
 
-   
+    private void actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarActionPerformed
+        
+        if(esValido()){
+            
+            Archivos manejador = new Archivos();
+            
+            Usuario user = new Usuario();
+            user.Login = login.getText();
+            user.Password = password.getText();
+            user.NivelAcceso = (int) nivelAcceso.getValue();
+            user.Nombre = nombre.getText();
+            user.Apellido = apellido.getText();
+
+            if(!email.getText().isEmpty())
+                user.Email = email.getText();
+
+            Convertidor cvt = new Convertidor();
+
+            String[] listaUsuario = cvt.UsuarioLista(user);
+            
+            if(manejador.ValidarUsuario(login.getText(), password.getText())){
+                
+                manejador.ActualizarUsuario(listaUsuario);
+                
+                JOptionPane.showMessageDialog(null, "Usuario actualizado con exito", "Informacion", JOptionPane.WARNING_MESSAGE);
+            }
+            else{
+
+                JOptionPane.showMessageDialog(null, "No se puede actualizar un registro que no existe", "Informacion", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            this.Limpiar();
+        }
+        
+        else{
+            JOptionPane.showMessageDialog(null, "Debe completar todos los campos obligatorios", "Error", JOptionPane.ERROR_MESSAGE); 
+        }
+    }//GEN-LAST:event_actualizarActionPerformed
+
+    private void LimpiarSinLoginPass(){
+
+        nivelAcceso.setValue(0);
+        nombre.setText("");
+        apellido.setText("");
+        email.setText("");
+    }
+    
     private void Limpiar(){
         
         login.setText("");
@@ -314,6 +374,7 @@ public class UsuarioMantenimiento extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton actualizar;
     private javax.swing.JTextField apellido;
     private javax.swing.JButton botonCancelar;
     private javax.swing.JButton botonRegistrar;

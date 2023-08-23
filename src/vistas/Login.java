@@ -120,9 +120,11 @@ public class Login extends javax.swing.JFrame {
 //            menu.show();
 //            this.dispose();
 //        }
+
         Menu menu = new Menu();
         menu.show();
         this.dispose();
+
     }//GEN-LAST:event_botonIngresarActionPerformed
 
     /**

@@ -12,6 +12,6 @@ package clases;
 public class TipoDocumento {
     
     public int Codigo;
-    public int Descripcion;
+    public String Descripcion;
     
 }

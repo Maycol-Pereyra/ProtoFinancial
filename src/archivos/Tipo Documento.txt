@@ -1,1 +1,2 @@
-1#2
+1#Nota debito
+2#Nota credito

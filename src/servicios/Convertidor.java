@@ -31,7 +31,6 @@ public class Convertidor {
         
         Archivos Manejador = new Archivos();
         
-        String id = String.valueOf(Manejador.ObtenerNuevoId(Manejador.Usuarios));
         String login = user.Login;
         String password = user.Password;
         String nivelAcceso = String.valueOf(user.NivelAcceso);
@@ -39,8 +38,7 @@ public class Convertidor {
         String apellido = user.Apellido;
         String email = user.Email;
 
-        String[] lista = {id, login, password, nivelAcceso,
-            nombre, apellido, email}; 
+        String[] lista = {login, password, nivelAcceso, nombre, apellido, email}; 
         
         return lista;
     }
@@ -50,15 +48,29 @@ public class Convertidor {
                 
         String[] infos = informaciones.split("#");
         
-        user.Id = Integer.parseInt(infos[0]);
-        user.Login = infos[1];
-        user.Password = infos[2];
-        user.NivelAcceso = Integer.parseInt(infos[3]);
-        user.Nombre = infos[4];
-        user.Apellido = infos[5];
-        user.Email = infos[6];
+        user.Login = infos[0];
+        user.Password = infos[1];
+        user.NivelAcceso = Integer.parseInt(infos[2]);
+        user.Nombre = infos[3];
+        user.Apellido = infos[4];
+        user.Email = infos[5];
         
         return user;
+    }
+    
+    public TransaccionContable StringTC(String informaciones){
+        TransaccionContable tc = new TransaccionContable();
+        
+        String[] infos = informaciones.split("#");
+        
+        tc.Numero = infos[0];
+        tc.Secuencia = infos[1];
+        tc.Cuenta_contable = Integer.parseInt(infos[2]);
+        tc.Valor_debito = Double.parseDouble(infos[3]);
+        tc.Valor_credito = Double.parseDouble(infos[4]);
+        tc.Comentario = infos[5];
+        
+        return tc;
     }
     
     public TipoDocumento StringTipoDoc(String informaciones){
@@ -67,7 +79,7 @@ public class Convertidor {
         String[] infos = informaciones.split("#");
         
         td.Codigo = Integer.parseInt(infos[0]);
-        td.Descripcion = Integer.parseInt(infos[1]);
+        td.Descripcion = infos[1];
         
         return td;
         
@@ -100,10 +112,27 @@ public class Convertidor {
         return lista;
     }
     
+    public CabeceraTransaccionContable StringCTC(String informaciones){
+        
+        CabeceraTransaccionContable ctc = new CabeceraTransaccionContable();
+        
+        String[] infos = informaciones.split("#");
+        
+        ctc.Numero = infos[0];
+        ctc.Fecha_documento = LocalDate.parse(infos[1]);
+        ctc.Tipo_documento = infos[2];
+        ctc.Descripcion_documento = infos[3];
+        ctc.Hecho_por = infos[4];
+        ctc.Monto_transaccion = Double.parseDouble(infos[5]);
+        ctc.Fecha_actualizacion = LocalDate.parse(infos[6]);
+        ctc.Status_actualizacion = Boolean.parseBoolean(infos[7]);
+        
+        return ctc;
+    }
+    
     public CatalogoCuentaContable StringCCC(String informaciones){
         
         CatalogoCuentaContable ccc = new CatalogoCuentaContable();
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         
         String[] infos = informaciones.split("#");
         
@@ -112,7 +141,7 @@ public class Convertidor {
         ccc.Tipo_cuenta = Boolean.parseBoolean(infos[2]);
         ccc.Nivel = Integer.parseInt(infos[3]);
         ccc.Cuenta_padre = Integer.parseInt(infos[4]);
-        ccc.Grupo = Integer.parseInt(infos[5]);
+        ccc.Grupo = infos[5];
         ccc.Fecha_creacion  = LocalDate.parse(infos[6]);
         ccc.Hora_creacion = LocalTime.parse(infos[7]);
         ccc.Debito_acumulado = Double.parseDouble(infos[8]);
@@ -123,24 +152,23 @@ public class Convertidor {
         
     }
     
+    
+    
     public String[] CabeceraLista(CabeceraTransaccionContable CTC){
         
         String numero = CTC.Numero;
         String fecha = CTC.Fecha_documento.toString();
         String tipo = String.valueOf(CTC.Tipo_documento);
+        String descripcion = CTC.Descripcion_documento;
         String hecho = CTC.Hecho_por;
         String  monto = String.valueOf(CTC.Monto_transaccion);
         String fechaAct = CTC.Fecha_actualizacion.toString();
-        String status = String.valueOf(CTC.Status_actualizacio);
+        String status = String.valueOf(CTC.Status_actualizacion);
         
-        if(monto.equals("0"))
-            monto = " ";
         if(fechaAct.equals("1/1/2002"))
             fechaAct = " ";
-        if(status.equals("false"))
-            status = " ";
-        
-        String[] lista = {numero, fecha, tipo, hecho, monto, fechaAct, status};
+
+        String[] lista = {numero, fecha, tipo, descripcion, hecho, monto, fechaAct, status};
         
         return lista;
     }

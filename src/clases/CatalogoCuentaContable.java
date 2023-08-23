@@ -11,7 +11,7 @@ public class CatalogoCuentaContable {
     public boolean Tipo_cuenta;
     public int Nivel;
     public int Cuenta_padre;
-    public int Grupo;
+    public String Grupo;
     public LocalDate Fecha_creacion;
     public LocalTime Hora_creacion;
     public double Debito_acumulado = 0;
