@@ -36,10 +36,20 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
         hora.setText(LocalTime.now().toString());
         fecha.disable();
         hora.disable();
+        
         tipo.removeAllItems();
         tipo.addItem("General");
         tipo.addItem("Detalle");
         tipo.setSelectedItem("General");
+        
+        grupo.removeAllItems();
+        grupo.addItem("Activo");
+        grupo.addItem("Pasivo");
+        grupo.addItem("Capital");
+        grupo.addItem("Ingresos");
+        grupo.addItem("Costos");
+        grupo.addItem("Gastos");
+        grupo.setSelectedIndex(0);
 
     }
 
@@ -71,7 +81,6 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         credito = new javax.swing.JTextField();
         debito = new javax.swing.JTextField();
-        grupo = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         balance = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -80,6 +89,7 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
         fecha = new javax.swing.JTextField();
         label = new javax.swing.JLabel();
         actualizar = new javax.swing.JButton();
+        grupo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -134,12 +144,6 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
 
         debito.setEditable(false);
 
-        grupo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                grupoActionPerformed(evt);
-            }
-        });
-
         jLabel11.setText("Credito acumulado");
 
         balance.setEditable(false);
@@ -157,6 +161,8 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
                 actualizarActionPerformed(evt);
             }
         });
+
+        grupo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -200,12 +206,14 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
                             .addComponent(debito)
                             .addComponent(credito)
                             .addComponent(hora)
-                            .addComponent(grupo, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(balance)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(fecha, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE))))
+                            .addComponent(fecha, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(21, 21, 21)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
@@ -268,7 +276,7 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonCancelar)
                     .addComponent(botonRegistrar)
@@ -294,7 +302,7 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
             ccc.Descripcion = descripcion.getText();
             ccc.Nivel = Integer.parseInt(nivel.getText());
             ccc.Cuenta_padre = Integer.parseInt(cuentaPadre.getText());
-            ccc.Grupo = grupo.getText();
+            ccc.Grupo = grupo.getSelectedItem().toString();
             ccc.Fecha_creacion = LocalDate.parse(fecha.getText(), formatter);
             ccc.Hora_creacion = LocalTime.parse(hora.getText());
             
@@ -328,13 +336,13 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
                 
                 manejador.Actualizar(manejador.CatalogoCuenta, lista);
                 
-                JOptionPane.showMessageDialog(null, "Catalogo cuenta contable actualizado con exito", "Informacion", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Cuenta contable actualizada con exito", "Informacion", JOptionPane.WARNING_MESSAGE);
             }
             else{
 
                 manejador.Insertar(manejador.CatalogoCuenta, lista);
                 
-                JOptionPane.showMessageDialog(null, "Catalogo cuenta contable registrado con exito", "Informacion", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Cuenta contable registrada con exito", "Informacion", JOptionPane.WARNING_MESSAGE);
                 
             }
             
@@ -353,12 +361,15 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
         descripcion.setText("");
         nivel.setText("");
         cuentaPadre.setText("");
-        grupo.setText("");
+        grupo.setSelectedIndex(0);
         debito.setText("");
         credito.setText("");
         balance.setText("");
         tipo.setSelectedItem("General");
-
+        label.setText("Creando...");
+        String fechaFormateada = LocalDate.now().format(formatter);
+        fecha.setText(fechaFormateada);
+        hora.setText(LocalTime.now().toString());
    
     }
     
@@ -366,7 +377,7 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
         descripcion.setText("");
         nivel.setText("");
         cuentaPadre.setText("");
-        grupo.setText("");
+        grupo.setSelectedIndex(0);
         debito.setText("");
         credito.setText("");
         balance.setText("");
@@ -384,15 +395,11 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
             return false;
         if(cuentaPadre.getText().isEmpty())
             return false;
-        if(grupo.getText().isEmpty())
+        if(grupo.getSelectedItem().toString().isEmpty())
             return false;
         return true;
     }
     
-    private void grupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grupoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_grupoActionPerformed
-
     private void numeroFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_numeroFocusLost
         
         Archivos manejador = new Archivos();
@@ -406,7 +413,7 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
             descripcion.setText(ccc.Descripcion);
             nivel.setText(String.valueOf(ccc.Nivel));
             cuentaPadre.setText(String.valueOf(ccc.Cuenta_padre));
-            grupo.setText(String.valueOf(ccc.Grupo));
+            grupo.setSelectedItem(String.valueOf(ccc.Grupo));
             debito.setText(String.valueOf(ccc.Debito_acumulado));
             credito.setText(String.valueOf(ccc.Credito_acumulado));
             balance.setText(String.valueOf(ccc.Balance));
@@ -445,7 +452,7 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
             ccc.Descripcion = descripcion.getText();
             ccc.Nivel = Integer.parseInt(nivel.getText());
             ccc.Cuenta_padre = Integer.parseInt(cuentaPadre.getText());
-            ccc.Grupo = grupo.getText();
+            ccc.Grupo = grupo.getSelectedItem().toString();
             ccc.Fecha_creacion = LocalDate.parse(fecha.getText(), formatter);
             ccc.Hora_creacion = LocalTime.parse(hora.getText());
             
@@ -478,7 +485,7 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
                     
                 manejador.Actualizar(manejador.CatalogoCuenta, lista);
                 
-                JOptionPane.showMessageDialog(null, "Catalogo cuenta contable actualizado con exito", "Informacion", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Cuenta contable actualizada con exito", "Informacion", JOptionPane.WARNING_MESSAGE);
             }
             else{
 
@@ -540,7 +547,7 @@ public class CatalogoCuentasMantenimiento extends javax.swing.JFrame {
     private javax.swing.JTextField debito;
     private javax.swing.JTextField descripcion;
     private javax.swing.JTextField fecha;
-    private javax.swing.JTextField grupo;
+    private javax.swing.JComboBox<String> grupo;
     private javax.swing.JTextField hora;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
